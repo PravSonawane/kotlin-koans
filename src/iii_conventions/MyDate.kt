@@ -1,5 +1,7 @@
 package iii_conventions
 
+import java.sql.Time
+
 data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<MyDate> {
     override fun compareTo(other: MyDate): Int {
         return when(this.year - other.year) {
@@ -9,6 +11,10 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparab
             }
             else -> this.year - other.year
         }
+    }
+
+    fun plus(date: MyDate):Unit {
+
     }
 }
 
@@ -45,3 +51,9 @@ class DateIterator(start: MyDate, endInclusive: MyDate) : Iterator<MyDate> {
     }
 
 }
+
+data class MultipleIntervals(val timeInterval: TimeInterval, val number: Int)
+
+operator fun MyDate.plus(interval : TimeInterval) = addTimeIntervals(interval,1)
+operator fun MyDate.plus(multipleInterval: MultipleIntervals) = addTimeIntervals(multipleInterval.timeInterval,multipleInterval.number)
+operator fun TimeInterval.times(number: Int) = MultipleIntervals(this,number)
